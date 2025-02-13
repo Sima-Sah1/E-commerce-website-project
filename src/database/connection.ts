@@ -1,4 +1,6 @@
 import { Sequelize } from "sequelize-typescript";
+import * as dotenv from 'dotenv';
+dotenv.config(); 
 
 const sequelize = new Sequelize({
     database : process.env.DB_NAME,
@@ -10,6 +12,7 @@ const sequelize = new Sequelize({
     models : [__dirname + "/models"]
 
 })
+
 
 sequelize.authenticate()
 .then(()=>{

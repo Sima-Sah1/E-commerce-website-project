@@ -9,14 +9,17 @@ dotenv.config()
 import './database/connection'
 
 import userRoute from './routes/UserRoutes'
+import productRoute from './routes/productRoute'
+import adminSeeder from './adminSeeder'
+app.use(express.json())
 
-app.get("/",(req:Request,res:Response)=>{
-    res.send("Hello World")
+//admin seeder
+adminSeeder()
 
-})
-app.get("/about",(req:Request,res:Response)=>{
-    res.send("About Page")
-})
+//localhost:3000/register
+//localhost:3000/hello/register
+app.use("",userRoute)
+app.use("/admin/product",productRoute)
 
 app.listen(PORT,()=>{
     console.log("Server has started at port", PORT)
