@@ -13,7 +13,7 @@ import {
 
 @Table({
     tableName : 'products',
-    modelName : "product",
+    modelName : 'product',
     timestamps : true 
 })
 

@@ -8,7 +8,7 @@ const router:Router = express.Router()
 
 
 
-router.route("./").post(authMiddleware.isAuthenticated,authMiddleware.restricTo(Role.Admin),
+router.route("/").post(authMiddleware.isAuthenticated,authMiddleware.restricTo(Role.Admin),
 upload.single('image'),productController.addProduct)
 
 
