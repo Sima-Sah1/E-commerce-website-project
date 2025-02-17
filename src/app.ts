@@ -10,8 +10,10 @@ import './database/connection'
 
 import userRoute from './routes/UserRoutes'
 import productRoute from './routes/productRoute'
+import categoryRoute from './routes/categoryRoute'
 import adminSeeder from './adminSeeder'
 import categoryController from './controllers/categoryController'
+import cartRoute from './routes/cartRoute'
 app.use(express.json())
 
 //admin seeder
@@ -21,8 +23,10 @@ adminSeeder()
 //localhost:3000/hello/register
 app.use("",userRoute)
 app.use("/admin/product",productRoute)
+app.use("/admin/category",categoryRoute)
+app.use("/customer/cart",cartRoute)
 
 app.listen(PORT,()=>{
-    categoryController.seedCategory()
+    //categoryController.seedCategory()
     console.log("Server has started at port", PORT)
 })

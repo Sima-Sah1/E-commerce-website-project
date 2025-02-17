@@ -3,6 +3,7 @@ import * as dotenv from 'dotenv';
 import Product from "./models/product";
 import User from "./models/userModel";
 import Category from "./models/Category";
+import Cart from "./models/cart";
 
 dotenv.config(); 
 
@@ -37,6 +38,16 @@ Product.belongsTo(User,{foreignKey : 'UserId'})
 
 Category.hasOne(Product,{foreignKey :'categoryId'})
 Product.belongsTo(Category,{foreignKey :'categoryId'})
+
+//product-cart relation
+User.hasMany(Cart,{foreignKey : 'userId'})
+Cart.belongsTo(User,{foreignKey : 'userId'})
+
+
+// user-cart relation
+Product.hasMany(Cart,{foreignKey : 'productId'})
+Cart.belongsTo(Product,{foreignKey : 'productId'})    
+
 
 
 export default sequelize
