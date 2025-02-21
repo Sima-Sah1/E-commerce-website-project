@@ -3,6 +3,8 @@ import { AuthRequest } from "../middleware/authMiddleware";
 import Cart from "../database/models/cart";
 import product from "../database/models/product";
 import Category from "../database/models/Category";
+// import { Sequelize} from "sequelize";
+// const sequelize = new Sequelize ()
 
 
 
@@ -50,6 +52,7 @@ class CartController{
             include : [
                 {
                     model : product,
+                    attributes : ['productName','productImageUrl'],
                     include : [
                         {
                             model : Category,
@@ -57,7 +60,9 @@ class CartController{
                         }
                     ]
                 }
-            ]
+            ],
+
+            attributes : ['productId','quantity']
         })
         if(cartItem.length === 0 ){
             res.status(404).json({
@@ -86,7 +91,8 @@ class CartController{
             //delete that productIdfrom userCart
             await Cart.destroy({
                 where : {
-                    userId,productId
+                    userId,
+                    productId
                 }
             })
             res.status(200).json({
@@ -103,7 +109,7 @@ class CartController{
                 })
                 return
             }
-            const cartData:any = await Cart.findOne({
+            const cartData = await Cart.findOne({
                 where : {
                     userId,
                     productId

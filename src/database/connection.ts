@@ -4,6 +4,9 @@ import Product from "./models/product";
 import User from "./models/userModel";
 import Category from "./models/Category";
 import Cart from "./models/cart";
+import Order from "./models/Order";
+import OrderDetail from "./models/OrderDetails";
+import Payment from "./models/Payment";
 
 dotenv.config(); 
 
@@ -46,7 +49,19 @@ Cart.belongsTo(User,{foreignKey : 'userId'})
 
 // user-cart relation
 Product.hasMany(Cart,{foreignKey : 'productId'})
-Cart.belongsTo(Product,{foreignKey : 'productId'})    
+Cart.belongsTo(Product,{foreignKey : 'productId'})   
+
+//order-orderdetail relation 
+Order.hasMany(OrderDetail,{foreignKey:'orderId'})
+OrderDetail.belongsTo(Order,{foreignKey:'orderId'})
+
+// orderdetail-product relation
+Product.hasMany(OrderDetail,{foreignKey:'productId'})
+OrderDetail.belongsTo(Product,{foreignKey:'productId'})
+
+// order-payment relation
+Payment.hasOne(Order,{foreignKey:'paymentId'})
+Order.belongsTo(Payment,{foreignKey:'paymentId'})
 
 
 
