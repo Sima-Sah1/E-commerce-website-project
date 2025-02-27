@@ -31,6 +31,7 @@ class OrderDetail extends Model{
 
     })
     declare quantity : number
+    productId: unknown;
     
 }
 
