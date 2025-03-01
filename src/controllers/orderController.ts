@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { AuthRequest } from "../middleware/authMiddleware";
-import { KhaltiResponse, OrderData, PaymentMethod } from "../types/orderTypes";
+import { KhaltiResponse, OrderData, PaymentMethod, TraansactionVerificationResponse, TransactionStatus } from "../types/orderTypes";
 import Order from "../database/models/Order";
 import Payment from "../database/models/Payment";
 import OrderDetail from "../database/models/OrderDetails";
@@ -67,5 +67,36 @@ class OrderController{
             })
         }
     }
+    async verifyTransaction(req:AuthRequest,res:Response):Promise<void>{
+        const {pidx}=req.body
+        
+        if(!pidx){
+            res.status(400).json({
+                message : "Please provide pidx"
+            })
+            return
+        }
+        const response = await axios.post("https://dev.khalti.com/api/v2/epayment/lookup/",{pidx},{
+            headers : {
+                'Authorization' : 'key e25238483d4f4eb1972ed569d7fc49fa'
+            }
+        })
+        const data : TraansactionVerificationResponse = 
+            response.data 
+            if (data.status === TransactionStatus.Completed){
+                await Payment.update({paymentStatus:'paid'},{
+                    where : {
+                        pidx : pidx
+                    }
+                })
+                res.status(200).json({
+                    message : "Payment verified successfully"
+                })
+            }else{
+                res.status(200).json({
+                    message : "Payment not verified" 
+                })
+            }
+        }
 }
 export default new OrderController()

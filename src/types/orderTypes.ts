@@ -33,3 +33,21 @@ export interface KhaltiResponse{
     expires_in : number,
     user_fee : number
 }
+
+export interface TraansactionVerificationResponse{
+    
+        pidx: string,
+        total_amount: number,
+        status: TransactionStatus ,
+        transaction_id: string,
+        fee: number,
+        refunded:boolean 
+     
+}
+
+export enum TransactionStatus{
+    Completed = 'Completed',
+    Refunded = 'refunded',
+    Pending = 'pending',
+    Initiated = 'initiated'
+}
